@@ -22,7 +22,7 @@ A GitHub action to turn scanned PDF's into searchable documents
 
 
 	
-
+[![Awesome](https://awesome.re/badge.svg)](https://github.com/BotzC)
 ## Example and usage
 
 Example of non-searchable [PDF file](.github/example_pdfs/Non-text-searchable.pdf) turned into a searchable [PDF file](.github/example_pdfs/output_searchable.pdf)
