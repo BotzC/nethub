@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>NetHub | Project</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="icon" href="./nh.jpg">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<p align="center">
+  <img height="380" src="https://capsule-render.vercel.app/api?type=waving&color=03a9f4&height=285&section=header&text=NetHub%20Project&fontSize=60&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=A%20Free%20Documentation%20|%20Projects%20&descAlignY=51&descAlign=50" />
+</p>
+<p align="center">
+  <img height="80" src="./images/bottom.png"/>
+</p>
+
+<div id="app">
+  <div class="search-wrapper">
+    <input type="text" v-model="search" placeholder="Search title.."/>
+        <label>Search title:</label>
+  </div>
+  <div class="wrapper">
+    <div class="card" v-for="post in filteredList">
+      <a v-bind:href="post.link" target="_blank">
+        <img v-bind:src="post.img"/>
+        <small>posted by: {{ post.author }}</small>
+        {{ post.title }}
+      </a>
+    </div>
+  </div>
+</div>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.9/vue.min.js'></script><script  src="./script.js"></script>
+  
+   <p><button class="custom-btn btn-1">Download</button></p>
+  
+<h3 style="color:white;" align="left">Connect with me:</h3>
+<p align="left">
+<a href="" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="rishavchanda" height="30" width="40" /></a>
+<a href="" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="rishav-chanda-b89a791b3" height="30" width="40" /></a>
+<a href="" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="rishav_chanda" height="30" width="40" /></a>
+<a href="" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/youtube.svg" alt="rishav chanda" height="30" width="40" /></a>
+</p> 
+  
+<p align="left">
+<a href="https://github.com/BotzC"><img src="https://awesome.re/badge.svg" alt="Awesome"></a>
+</p>
+
+<footer style="color:white;" align="center">
+      <p>This Project & Docs was created by <a href="https://github.com/BotzC">Botz</a> and NetHub Project.</p>
+		<small>© 2024 NetHub Projects</small>
+		<address>nethub@email.com</address>
+</footer>
+
+</body>
+</html>
