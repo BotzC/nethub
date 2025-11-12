@@ -1,58 +1,631 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>NetHub | Project</title>
-  <link rel="stylesheet" href="./style.css">
-  <link rel="icon" href="./nh.jpg">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" href="nh.jpg">
+    <title>NETHUB | Secure Hosting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: #0a0a0a;
+            color: #00ff41;
+            overflow-x: hidden;
+        }
+        
+		.glow-image {
+			box-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00;
+			border-radius: 5px; /* optional */
+		}
+		
+        .hacker-font {
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 5px #00ff41, 0 0 10px #00ff41;
+        }
+        
+        .glow-box {
+            box-shadow: 0 0 10px #00ff41;
+        }
+        
+        .terminal-input {
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid #00ff41;
+            color: #00ff41;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .terminal-input:focus {
+            outline: none;
+            box-shadow: 0 0 10px #00ff41;
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: .15em solid #00ff41;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: 
+                typing 3.5s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #00ff41; }
+        }
+        
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 255, 65, 0.1) 0%,
+                rgba(0, 255, 65, 0) 10%
+            );
+            background-size: 100% 8px;
+            pointer-events: none;
+            animation: scanline 8s linear infinite;
+        }
+        
+        @keyframes scanline {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 0 100%;
+            }
+        }
+        
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+    </style>
 </head>
-<body>
-<!-- partial:index.partial.html -->
-<p align="center">
-  <img height="380" src="https://capsule-render.vercel.app/api?type=waving&color=03a9f4&height=285&section=header&text=NetHub%20Project&fontSize=60&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=A%20Free%20Documentation%20|%20Projects%20&descAlignY=51&descAlign=50" />
-</p>
-<p align="center">
-  <img height="80" src="./images/bottom.png"/>
-</p>
+<body class="min-h-screen">
+    <canvas id="matrix" class="matrix-bg"></canvas>
+    
+    <div class="scanline"></div>
+    
+    <header class="border-b border-green-500 border-opacity-50 sticky top-0 z-50 bg-black bg-opacity-70 backdrop-blur-sm">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+					<img src="NH2.png" width="50" class="glow-image">
+                    <a href="#hero" class="text-2xl md:text-3xl font-bold hacker-font glow-text">NET<span class="text-white">HUB</span></a>
+                </div>
+                <nav class="hidden md:flex space-x-8" id="nav-menu">
+                    <a href="#hero" class="hover:text-green-400 transition duration-300">Home</a>
+                    <a href="#services" class="hover:text-green-400 transition duration-300">Services</a>
+                    <a href="#pricing" class="hover:text-green-400 transition duration-300">Pricing</a>
+                    <a href="#contact" class="hover:text-green-400 transition duration-300">Contact</a>
+                    <!--<a href="panel.html" class="hover:text-green-400 transition duration-300">Panel</a>-->
+                </nav>
+                <button class="md:hidden text-green-500" id="mobile-menu-button">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <section id="hero" class="py-20 px-4">
+        <div class="container mx-auto text-center">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6 hacker-font glow-text typewriter">NET_HUB Cloud Services</h2>
+                <p class="text-lg md:text-xl mb-10 text-gray-300">Host your VPS services with military-grade encryption and complete anonymity. No logs. No tracking. No compromises.</p>
+                <div class="flex flex-col md:flex-row justify-center gap-4">
+                    <a href="#pricing" class="bg-green-600 hover:bg-green-700 text-black font-bold py-3 px-6 rounded glow-box transition duration-300">
+                        <i class="fas fa-lock mr-2"></i> Get Started
+                    </a>
+                    <a href="#services" class="border border-green-500 hover:bg-green-900 hover:bg-opacity-30 text-green-500 font-bold py-3 px-6 rounded transition duration-300">
+                        <i class="fas fa-terminal mr-2"></i> Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="services" class="py-16 px-4">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center hacker-font glow-text">Our <span class="text-white">Features</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-black bg-opacity-50 p-6 rounded-lg border border-green-500 border-opacity-30 hover:glow-box transition duration-300">
+                    <div class="text-green-500 text-4xl mb-4">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Complete Anonymity</h3>
+                    <p class="text-gray-300">We don't ask for personal information.</p>
+                </div>
+                
+                <div class="bg-black bg-opacity-50 p-6 rounded-lg border border-green-500 border-opacity-30 hover:glow-box transition duration-300">
+                    <div class="text-green-500 text-4xl mb-4">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Military-Grade Security</h3>
+                    <p class="text-gray-300">End-to-end encryption with AES-256 and perfect forward secrecy for all communications.</p>
+                </div>
+                
+                <div class="bg-black bg-opacity-50 p-6 rounded-lg border border-green-500 border-opacity-30 hover:glow-box transition duration-300">
+                    <div class="text-green-500 text-4xl mb-4">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Global Network</h3>
+                    <p class="text-gray-300">Servers distributed worldwide in privacy-friendly jurisdictions with no data retention laws.</p>
+                </div>
+				
+				<div class="bg-black bg-opacity-50 p-6 rounded-lg border border-green-500 border-opacity-30 hover:glow-box transition duration-300">
+                    <div class="text-green-500 text-4xl mb-4">
+                        <i class="fa-solid fa-tape"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Deploy Your Perfect Image</h3>
+                    <p class="text-gray-300">With Custom Images you can instantly deploy your .iso or .qcow2 images and spin up cloud VPS compute instances via web interface or API.</p>
+                </div>
+				
+				<div class="bg-black bg-opacity-50 p-6 rounded-lg border border-green-500 border-opacity-30 hover:glow-box transition duration-300">
+                    <div class="text-green-500 text-4xl mb-4">
+                        <i class="fa-solid fa-terminal"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Secure SSH cloud-init Scripts</h3>
+                    <p class="text-gray-300">Customize and secure your deployments with cloud-init scripts and SSH keys via the API or web interface. Automate your entire setup process and get from code to live in minutes.</p>
+                </div>
+				
+				<div class="bg-black bg-opacity-50 p-6 rounded-lg border border-green-500 border-opacity-30 hover:glow-box transition duration-300">
+                    <div class="text-green-500 text-4xl mb-4">
+                        <i class="fa-solid fa-cloud"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">API to Automate Cloud Provisioning</h3>
+                    <p class="text-gray-300">Get full programmatic access to your cloud resources with the NETHUB API . Integrate with your your own scripts and DevOps tools to create seamless & efficient workflows.</p>
+                </div>
+				
+				<div class="bg-black bg-opacity-50 p-6 rounded-lg border border-green-500 border-opacity-30 hover:glow-box transition duration-300">
+                    <div class="text-green-500 text-4xl mb-4">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Top Performance at Fair Prices</h3>
+                    <p class="text-gray-300">Why pay more? We get the best deals on the latest tech from industry giants like AMD and Samsung to deliver state-of-the-art servers that fit any budget.</p>
+                </div>
+				
+				<div class="bg-black bg-opacity-50 p-6 rounded-lg border border-green-500 border-opacity-30 hover:glow-box transition duration-300">
+                    <div class="text-green-500 text-4xl mb-4">
+                        <i class="fa-solid fa-book-atlas"></i>>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Global Availability</h3>
+                    <p class="text-gray-300">Get the most out of your server wherever you are. Twelve strategic Locations in nine global regions ensure low latency and SLA-backed reliability.</p>
+                </div>
+				
+				<div class="bg-black bg-opacity-50 p-6 rounded-lg border border-green-500 border-opacity-30 hover:glow-box transition duration-300">
+                    <div class="text-green-500 text-4xl mb-4">
+                        <i class="fa-solid fa-shield"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Always-On DDoS Protection</h3>
+                    <p class="text-gray-300">Our infrastructure is equipped with always-on DDoS protection, safeguarding your digital assets against attacks and ensuring uninterrupted operations.</p>
+                </div>
+				
+				<div class="bg-black bg-opacity-50 p-6 rounded-lg border border-green-500 border-opacity-30 hover:glow-box transition duration-300">
+                    <div class="text-green-500 text-4xl mb-4">
+                        <i class="fa-solid fa-database"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Performance & Storage</h3>
+                    <p class="text-gray-300">Fast and responsive computing with powerful AMD processors, plus your choice of SSD or Gen 4 PCIe NVMe SSD storage options at no additional cost.</p>
+                </div>
+				
+				<div class="bg-black bg-opacity-50 p-6 rounded-lg border border-green-500 border-opacity-30 hover:glow-box transition duration-300">
+                    <div class="text-green-500 text-4xl mb-4">
+                        <i class="fa-solid fa-circle-nodes"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Networking Possibilities</h3>
+                    <p class="text-gray-300">Dedicated IPv4 and IPv6 addresses, with options to configure additional IPs. Create virtual private networks with unlimited internal traffic.</p>
+                </div>
+				
+				<div class="bg-black bg-opacity-50 p-6 rounded-lg border border-green-500 border-opacity-30 hover:glow-box transition duration-300">
+                    <div class="text-green-500 text-4xl mb-4">
+                        <i class="fa-brands fa-dev"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">DevOps Features</h3>
+                    <p class="text-gray-300">Enhance your deployment process with custom images, cloud-init, SSH keys, and CI/CD pipelines, designed for quick and efficient development operations.</p>
+                </div>
+				
+            </div>
+        </div>
+    </section>
+    
+    <section id="pricing" class="py-16 px-4 bg-black bg-opacity-30">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center hacker-font glow-text">VPS <span class="text-white">Plans</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="bg-black bg-opacity-70 p-6 rounded-lg border border-green-500 border-opacity-30 hover:glow-box transition duration-300">
+                    <h3 class="text-xl font-bold mb-4 text-center">Stealth</h3>
+                    <div class="text-green-500 text-4xl font-bold mb-4 text-center">20 USD<span class="text-sm text-gray-400">/month</span></div>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>4 vCPU Cores</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>8GB RAM</span>
+                        </li>
+						<li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>75GB NVMe Storage</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>200 Mbit/s Bandwidth</span>
+                        </li>
+						<li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>1 Snapshots</span>
+                        </li>
+						<li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Unlimited Traffic</span>
+                        </li>
+						<li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Data Protection with Auto Backup</span>
+                        </li>
+						<li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>IPv4 Dedicated</span>
+                        </li>
+                        <li class="flex items-center text-gray-500">
+                            <i class="fas fa-times text-red-500 mr-2"></i>
+                            <span>DDoS Protection</span>
+                        </li>
+                    </ul>
+                    
+                </div>
+                
+                <div class="bg-black bg-opacity-70 p-6 rounded-lg border border-green-500 border-opacity-50 glow-box transform scale-105 z-10">
+                    <div class="absolute top-0 right-0 bg-green-600 text-black text-xs font-bold px-2 py-1 rounded-bl">POPULAR</div>
+                    <h3 class="text-xl font-bold mb-4 text-center">Ghost</h3>
+                    <div class="text-green-500 text-4xl font-bold mb-4 text-center">50 USD<span class="text-sm text-gray-400">/month</span></div>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>8 vCPU Cores</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>24GB RAM</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>200GB NVMe Storage</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>600 Mbit/s Bandwidth</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>3 Snapshots</span>
+                        </li>
+						<li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Unlimited Traffic</span>
+                        </li>
+						<li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Data Protection with Auto Backup</span>
+                        </li>
+						<li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>IPv4 Dedicated</span>
+                        </li>
+						<li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>DDoS Protection</span>
+                        </li>
+                    </ul>
 
-<div id="app">
-  <div class="search-wrapper">
-    <input type="text" v-model="search" placeholder="Search title.."/>
-        <label>Search title:</label>
-  </div>
-  <div class="wrapper">
-    <div class="card" v-for="post in filteredList">
-      <a v-bind:href="post.link" target="_blank">
-        <img v-bind:src="post.img"/>
-        <small>posted by: {{ post.author }}</small>
-        {{ post.title }}
-      </a>
-    </div>
-  </div>
-</div>
-<!-- partial -->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.9/vue.min.js'></script><script  src="./script.js"></script>
-  
-   <p><button class="custom-btn btn-1">Download</button></p>
-  
-<h3 style="color:white;" align="left">Connect with me:</h3>
-<p align="left">
-<a href="" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="rishavchanda" height="30" width="40" /></a>
-<a href="" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="rishav-chanda-b89a791b3" height="30" width="40" /></a>
-<a href="" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="rishav_chanda" height="30" width="40" /></a>
-<a href="" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/youtube.svg" alt="rishav chanda" height="30" width="40" /></a>
-</p> 
-  
-<p align="left">
-<a href="https://github.com/BotzC"><img src="https://awesome.re/badge.svg" alt="Awesome"></a>
-</p>
+                </div>
+                
+                <div class="bg-black bg-opacity-70 p-6 rounded-lg border border-green-500 border-opacity-30 hover:glow-box transition duration-300">
+                    <h3 class="text-xl font-bold mb-4 text-center">Custom</h3>
+                    <div class="text-green-500 text-4xl font-bold mb-4 text-center"> USD<span class="text-sm text-gray-400">/month</span></div>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Custom vCPU</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Custom RAM</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Custom Storage</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Cuustom Bandwidth</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>3 Snapshots</span>
+                        </li>
+						<li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Unlimited Traffic</span>
+                        </li>
+						<li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Data Protection with Auto Backup</span>
+                        </li>
+						<li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>IPv4 Dedicated</span>
+                        </li>
+						<li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>DDoS Protection</span>
+                        </li>
+                    </ul>
 
-<footer style="color:white;" align="center">
-      <p>This Project & Docs was created by <a href="https://github.com/BotzC">Botz</a> and NetHub Project.</p>
-		<small>© 2024 NetHub Projects</small>
-		<address>nethub@email.com</address>
-</footer>
-
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    
+    <section class="py-16 px-4 bg-black bg-opacity-30">
+        <div class="container mx-auto max-w-4xl">
+            <h2 class="text-3xl font-bold mb-12 text-center hacker-font glow-text">Frequently <span class="text-white">Asked Questions</span></h2>
+            
+            <div class="space-y-4">
+                <div class="border-b border-green-500 border-opacity-30 pb-4">
+                    <button class="flex justify-between items-center w-full text-left">
+                        <h3 class="text-lg font-bold">Is my data really anonymous?</h3>
+                        <i class="fas fa-chevron-down text-green-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="mt-2 text-gray-300 hidden">
+                        <p>Yes. We implement multiple layers of security including Tor hidden services, end-to-end encryption, and strict no-logging policies. We don't require any personal information.</p>
+                    </div>
+                </div>
+                
+                <div class="border-b border-green-500 border-opacity-30 pb-4">
+                    <button class="flex justify-between items-center w-full text-left">
+                        <h3 class="text-lg font-bold">What payment methods do you accept?</h3>
+                        <i class="fas fa-chevron-down text-green-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="mt-2 text-gray-300 hidden">
+                        <p>We accept (USDT),(BTC),(USD),(LKR) for maximum anonymity.</p>
+                    </div>
+                </div>
+                
+                <div class="border-b border-green-500 border-opacity-30 pb-4">
+                    <button class="flex justify-between items-center w-full text-left">
+                        <h3 class="text-lg font-bold">Do you offer technical support?</h3>
+                        <i class="fas fa-chevron-down text-green-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="mt-2 text-gray-300 hidden">
+                        <p>Response time is typically within 24 hours. For security reasons, we don't offer live chat or phone support.</p>
+                    </div>
+                </div>
+                
+                <div class="border-b border-green-500 border-opacity-30 pb-4">
+                    <button class="flex justify-between items-center w-full text-left">
+                        <h3 class="text-lg font-bold">What happens if my service gets DDoSed?</h3>
+                        <i class="fas fa-chevron-down text-green-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="mt-2 text-gray-300 hidden">
+                        <p>Our Ghost and Custom plans include DDoS protection. For basic plans, we recommend implementing your own mitigation strategies. In extreme cases, we may temporarily relocate your service to a different node.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="contact" class="py-16 px-4">
+        <div class="container mx-auto max-w-4xl">
+            <h2 class="text-3xl font-bold mb-12 text-center hacker-font glow-text">Contact <span class="text-white">Us</span></h2>
+            
+            <div class="bg-black bg-opacity-50 p-6 rounded-lg border border-green-500 border-opacity-30">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">Secure Communication</h3>
+                        <p class="text-gray-300 mb-6">For maximum security, please use our encrypted contact form or reach us through our hidden service.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <i class="fas fa-envelope text-green-500 mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-bold">nethubtechnologies@gmail.com</h4>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-globe text-green-500 mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-bold">www.nethub.vercel.app</h4>
+                                </div>
+                            </div>
+							<div class="flex items-start">
+								<i class="fa-brands fa-whatsapp text-green-500 mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-bold">+94775288341</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <form>
+                            <div class="mb-4">
+                                <label class="block text-gray-300 mb-2">Your Name</label>
+                                <input type="text" class="terminal-input w-full px-3 py-2 rounded" placeholder="User Name">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-300 mb-2">Message</label>
+                                <textarea class="terminal-input w-full px-3 py-2 rounded" rows="4" placeholder="Encrypt your message with our PGP key"></textarea>
+                            </div>
+                            <button type="submit" class="bg-green-600 hover:bg-green-700 text-black font-bold py-2 px-4 rounded transition duration-300 w-full">
+                                <i class="fas fa-paper-plane mr-2"></i> Send Encrypted Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="bg-black bg-opacity-70 py-8 px-4 border-t border-green-500 border-opacity-30">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <i class="fas fa-server text-xl text-green-500"></i>
+                    <span class="text-xl font-bold hacker-font">NETHUB Host</span>
+                </div>
+                
+                <div class="flex space-x-6 mb-4 md:mb-0">
+                    <a href="#" class="text-gray-400 hover:text-green-500 transition duration-300">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-green-500 transition duration-300">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-green-500 transition duration-300">
+                        <i class="fab fa-keybase"></i>
+                    </a>
+					<a href="#" class="text-gray-400 hover:text-green-500 transition duration-300">
+                        <i class="fa-brands fa-discord"></i>
+                    </a>
+					<a href="#" class="text-gray-400 hover:text-green-500 transition duration-300">
+                        <i class="fa-brands fa-reddit"></i>
+                    </a>
+                </div>
+                
+                <div class="text-sm text-gray-500">
+                    &copy; 2023 NETHUB. All rights reserved.
+                </div>
+            </div>
+            
+            <div class="mt-6 pt-6 border-t border-gray-800 text-center text-xs text-gray-600">
+                <p>Warning: This service is intended for legal purposes only. We do not condone illegal activities.</p>
+                <p class="mt-2">Server location: Classified | Jurisdiction: Privacy Haven</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Matrix background effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+        
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789';
+        
+        const alphabet = katakana + latin + nums;
+        
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        
+        const rainDrops = [];
+        
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
+        }
+        
+        const draw = () => {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#00FF41';
+            ctx.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        };
+        
+        setInterval(draw, 30);
+        
+        // FAQ accordion functionality
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('i');
+                
+                if (content.classList.contains('hidden')) {
+                    content.classList.remove('hidden');
+                    icon.classList.add('rotate-180');
+                } else {
+                    content.classList.add('hidden');
+                    icon.classList.remove('rotate-180');
+                }
+            });
+        });
+        
+        // Terminal input focus effect
+        const terminalInput = document.querySelector('.terminal-input');
+        if (terminalInput) { // Sicherstellen, dass das Element existiert
+            terminalInput.addEventListener('focus', () => {
+                terminalInput.parentElement.classList.add('glow-text');
+            });
+            
+            terminalInput.addEventListener('blur', () => {
+                terminalInput.parentElement.classList.remove('glow-text');
+            });
+        }
+        
+        // Responsive menu toggle
+        const menuButton = document.querySelector('button.md\\:hidden');
+        const navMenu = document.querySelector('#nav-menu');
+        
+        if (menuButton && navMenu) { // Sicherstellen, dass die Elemente existieren
+            menuButton.addEventListener('click', () => {
+                navMenu.classList.toggle('hidden');
+                navMenu.classList.toggle('absolute');
+                navMenu.classList.toggle('top-16');
+                navMenu.classList.toggle('right-4');
+                navMenu.classList.toggle('bg-black');
+                navMenu.classList.toggle('bg-opacity-90');
+                navMenu.classList.toggle('p-4');
+                navMenu.classList.toggle('rounded');
+                navMenu.classList.toggle('border');
+                navMenu.classList.toggle('border-green-500');
+                navMenu.classList.toggle('flex-col');
+                navMenu.classList.toggle('space-y-4');
+                navMenu.classList.toggle('space-x-0');
+            });
+        }
+    </script>
 </body>
 </html>
